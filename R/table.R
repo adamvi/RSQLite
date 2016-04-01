@@ -21,7 +21,7 @@ NULL
 #'   \code{\link[DBI]{make.db.names}}). If \code{NA} will add rows names if
 #'   they are characters, otherwise will ignore.
 #' @param overwrite a logical specifying whether to overwrite an existing table 
-#'   or not. Its default is \code{FALSE}. (See the BUGS section below)
+#'   or not. Its default is \code{FALSE}.
 #' @param append a logical specifying whether to append to an existing table 
 #'   in the DBMS.  Its default is \code{FALSE}.
 #' @param field.types character vector of named  SQL field types where
@@ -128,7 +128,7 @@ setMethod("dbWriteTable", c("SQLiteConnection", "character", "character"),
 #' @export
 #' @rdname dbWriteTable
 setMethod("sqlData", "SQLiteConnection", function(con, value, row.names = NA) {
-  value <- rownamesToColumn(value, row.names)
+  value <- sqlRownamesToColumn(value, row.names)
   
   # Convert factors to strings
   is_factor <- vapply(value, is.factor, logical(1))
@@ -162,7 +162,7 @@ setMethod("sqlData", "SQLiteConnection", function(con, value, row.names = NA) {
 #' @param select.cols  A SQL statement (in the form of a character vector of 
 #'    length 1) giving the columns to select. E.g. "*" selects all columns, 
 #'    "x,y,z" selects three columns named as listed.
-#' @inheritParams DBI::rownamesToColumn
+#' @inheritParams DBI::sqlRownamesToColumn
 #' @export
 #' @examples
 #' library(DBI)
