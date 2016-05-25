@@ -19,21 +19,16 @@ matrix:
   - branches:
       only:
         - feature/upgrade-sqlite
-
     before_install: # decrypt deploy key for feature/upgrade-sqlite branch
       - openssl aes-256-cbc -K $encrypted_c3ad55031ba5_key -iv $encrypted_c3ad55031ba5_iv -in .ssh/id_rsa.enc -out .ssh/id_rsa -d; ls .ssh; fi
-
     install:
       - true
-
     r_packages:
       - xml2
       - rvest
       - git2r
-
     before_script:
       - true
-
     script:
       - R -f src-raw/upgrade.R
 
