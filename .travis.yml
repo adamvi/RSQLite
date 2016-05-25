@@ -4,15 +4,24 @@ language: r
 cache: packages
 sudo: false
 
-# Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
-r_github_packages:
-  - hadley/testthat
+matrix:
+  - branches:
+      except:
+        - feature/upgrade-sqlite
 
-before_install: # decrypt deploy key for feature/upgrade-sqlite branch
-  - if [ "${TRAVIS_BRANCH}" == "feature/upgrade-sqlite" ]; then openssl aes-256-cbc -K $encrypted_c3ad55031ba5_key -iv $encrypted_c3ad55031ba5_iv -in .ssh/id_rsa.enc -out .ssh/id_rsa -d; ls .ssh; fi
+    # Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
+    r_github_packages:
+      - hadley/testthat
 
-after_success:
-  - Rscript -e "devtools::install_github('jimhester/covr'); covr::codecov(exclusions=c('src/sqlite3.c', 'src/extension-functions.c'))"
+    after_success:
+      - Rscript -e "devtools::install_github('jimhester/covr'); covr::codecov(exclusions=c('src/sqlite3.c', 'src/extension-functions.c'))"
+
+  - branches:
+      only:
+        - feature/upgrade-sqlite
+
+    before_install: # decrypt deploy key for feature/upgrade-sqlite branch
+      - openssl aes-256-cbc -K $encrypted_c3ad55031ba5_key -iv $encrypted_c3ad55031ba5_iv -in .ssh/id_rsa.enc -out .ssh/id_rsa -d; ls .ssh; fi
 
 notifications:
   email:
