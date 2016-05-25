@@ -9,7 +9,7 @@ r_github_packages:
   - hadley/testthat
 
 before_install: # decrypt deploy key for feature/upgrade-sqlite branch
-  - if [ "${TRAVIS_BRANCH}" == "feature/upgrade-sqlite" ]; then openssl aes-256-cbc -K $encrypted_c3ad55031ba5_key -iv $encrypted_c3ad55031ba5_iv -in id_rsa.enc -out id_rsa -d; fi
+  - if [ "${TRAVIS_BRANCH}" == "feature/upgrade-sqlite" ]; then openssl aes-256-cbc -K $encrypted_c3ad55031ba5_key -iv $encrypted_c3ad55031ba5_iv -in .ssh/id_rsa.enc -out .ssh/id_rsa -d; fi
 
 after_success:
   - Rscript -e "devtools::install_github('jimhester/covr'); covr::codecov(exclusions=c('src/sqlite3.c', 'src/extension-functions.c'))"
