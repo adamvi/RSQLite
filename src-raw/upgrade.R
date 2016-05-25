@@ -14,3 +14,5 @@ tmp <- tempfile()
 download.file(latest, tmp)
 unzip(tmp, exdir = "src/sqlite3", junkpaths = TRUE)
 unlink("src/sqlite3/shell.c")
+
+git2r::add(git2r::repository("."), "src/sqlite")
